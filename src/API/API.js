@@ -1,7 +1,7 @@
 import React from "react";
 
 const baseUrl = "https://pixabay.com/api/";
-const apiKey = "20791444-9e10ec7121cc0b87619d148c0";
+const apiKey = "19858059-a00c77d69399edf61aa280af0";
 // const currentPage = 1;
 // const query = '';
 

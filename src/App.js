@@ -6,7 +6,6 @@ import Button from "./Components/Button/Button";
 import Modal from "./Components/Modal/Modal";
 import Loader from "react-loader-spinner";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-// import notification from '../../data/notification';
 import "./App.css";
 
 // const fetch = api.getFetch().then((fetch) => console.log(fetch))
@@ -26,10 +25,7 @@ class App extends Component {
   componentDidUpdate(prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImg(this.state.searchQuery);
-    // } else if(this.state.searchQuery === "") {
-    //   // notification.noticeMessage();
-    //   return;
-    }
+    };
   }
   
   onChangeQuery = (query) => {
@@ -37,24 +33,25 @@ class App extends Component {
     this.setState({ isLoading: true });
 
     api.getFetch(query, currentPage).then((result) => {
-      this.setState({ hits: result, resultLength: result.length, isLoading: false });
-      // .catch((error) => console.log("ERROR", error));
-      //.catch(notify.errorMessage);
-    });  
+      this.setState({ 
+        hits: result, 
+        resultLength: result.length, 
+        isLoading: false });
+      })
+      .catch((error) => {
+        console.log("ERROR", error)
+      })
 
     if(this.state.searchQuery === query) {
       return;
-    }  
-    this.setState ({searchQuery: query, currentPage: 1, hits: [] });
-    // this.searchImg(query);
+    } this.setState ({searchQuery: query, currentPage: 1, hits: [] });
   };  
 
   fetchImg = () => {
-    const { currentPage, searchQuery } = this.state;
-    const options = { searchQuery, currentPage };
+    const { searchQuery, currentPage } = this.state;
     this.setState({ isLoading: true });
 
-    api.getFetch(options).then((result) => {
+    api.getFetch(currentPage, searchQuery).then((result) => {
       // console.log(result.length);
       this.setState((prevState) => ({
         hits: [...prevState.hits, ...result],
@@ -99,7 +96,7 @@ class App extends Component {
             <img src={elem.largeImageURL} alt={elem.tags} width="800" height="600" />
           </Modal>
         )}
-        {resultLength === 12 && !isLoading && <Button onLoadMore={fetchImg()} />} 
+        {resultLength === 12 && !isLoading && <Button onFetchImg={fetchImg} />} 
         <Loader 
           type="BallTriangle" 
           color="#00BFFF" 

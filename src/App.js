@@ -74,8 +74,8 @@ class App extends Component {
     }));
   };
 
-  getElem = ({selectedImg}) => {
-    this.setState({ selectedImg });
+  getElem = (elem) => {
+    this.setState({ selectedImg: elem });
     this.toggleModal();
   };
 
@@ -86,10 +86,11 @@ class App extends Component {
     return (
       <>
         <Searchbar onSubmit={onChangeQuery} />
-
         <ImageGallery hits={hits} getElem={getElem} />
 
-        {shouldRenderLoadMoreBtn && <Button onFetchImg={fetchImg} />} 
+        {shouldRenderLoadMoreBtn && 
+          <Button onFetchImg={fetchImg} />
+        } 
         
         {showModal && (
           <Modal onClose={toggleModal}>

@@ -4,11 +4,12 @@ import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 const ImageGallery = ({ hits, getElem }) => {
   return (
     <ul className="ImageGallery">
-      {hits.map( hit => (
+      {hits.map(({id, tags, webformatURL, largeImageURL }) => (
         <ImageGalleryItem 
-          key={hit.id}
-          alt={hit.tags}
-          hit={hit}
+          key={id}
+          alt={tags}
+          src={webformatURL}
+          selectedImg={largeImageURL}
           getElem={getElem}
         />
       ))}

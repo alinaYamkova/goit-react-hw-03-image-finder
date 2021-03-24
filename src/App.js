@@ -18,41 +18,38 @@ class App extends Component {
     isLoading: false,
     showModal: false,
     resultLength: null,
-    elem: '',
+    selectedImg: '',
     error: null,
   };
 
   componentDidUpdate(prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
-      this.fetchImg(this.state.searchQuery);
+      this.fetchImg();
     };
   }
   
   onChangeQuery = (query) => {
-    const { currentPage } = this.state;
-    this.setState({ isLoading: true });
+    const { searchQuery } = this.state;
 
-    api.getFetch(query, currentPage).then((result) => {
-      this.setState({ 
-        hits: result, 
-        resultLength: result.length, 
-        isLoading: false });
-      })
-      .catch((error) => {
-        console.log("ERROR", error)
-      })
-
-    if(this.state.searchQuery === query) {
+    if(searchQuery === query) {
       return;
-    } this.setState ({searchQuery: query, currentPage: 1, hits: [] });
+    }
+    this.setState ({searchQuery: query, currentPage: 1, hits: [] });
+    // this.setState({ isLoading: true });
+    // api.getFetch(query, currentPage).then((result) => {
+    //   this.setState({ 
+    //     hits: result, 
+    //     resultLength: result.length, 
+    //     isLoading: false });
+    //   })
+    //   .catch((error) => { console.log("ERROR", error)});
   };  
 
   fetchImg = () => {
-    this.setState({ isLoading: true });
     const { searchQuery, currentPage } = this.state;
+    this.setState({ isLoading: true });
 
-    api.getFetch(searchQuery, currentPage).then((result) => {
-      // console.log(result.length);
+    api.getFetch({searchQuery, currentPage}).then((result) => {
       this.setState((prevState) => ({
         hits: [...prevState.hits, ...result],
         currentPage: prevState.currentPage + 1,
@@ -60,7 +57,8 @@ class App extends Component {
       this.scrollTo();
     })
     .catch(error => this.setState({ error }))
-    .finally(() => this.setState({ isLoading: false }));
+    .finally(() => {this.setState({ isLoading: false });
+    });
   };
   
   scrollTo = () => {
@@ -76,34 +74,41 @@ class App extends Component {
     }));
   };
 
-  getElem = (elem) => {
-    if (elem) {
-      this.setState({ elem });
-      this.toggleModal();
-    }
+  getElem = ({selectedImg}) => {
+    this.setState({ selectedImg });
+    this.toggleModal();
   };
 
   render() {
-    const { showModal, isLoading, hits, elem, resultLength } = this.state;
-    // const { toggleModal, getElem, fetchImg, onChangeQuery } = this;
-    // const shouldRenderLoadMoreBtn = resultLength >= 12 && !isLoading;
+    const { showModal, isLoading, hits, resultLength, selectedImg } = this.state;
+    const { toggleModal, getElem, fetchImg, onChangeQuery } = this;
+    const shouldRenderLoadMoreBtn = resultLength === 12 && !isLoading;
     return (
       <>
-        <Searchbar onSubmit={this.onChangeQuery} />
-        <ImageGallery hits={hits} getElem={this.getElem} />
+        <Searchbar onSubmit={onChangeQuery} />
+
+        <ImageGallery hits={hits} getElem={getElem} />
+
+        {shouldRenderLoadMoreBtn && <Button onFetchImg={fetchImg} />} 
+        
         {showModal && (
-          <Modal onClose={this.toggleModal}>
-            <img src={elem.largeImageURL} width="800" height="600" />
+          <Modal onClose={toggleModal}>
+            <img 
+              src={selectedImg} 
+              width="600" 
+              height="400" 
+            />
           </Modal>
         )}
-        {resultLength === 12 && !isLoading && <Button onFetchImg={this.fetchImg} />} 
-        <Loader 
-          type="BallTriangle" 
-          color="#00BFFF" 
-          height={80} 
-          width={80} 
-          timeout={2500}         
-        />
+
+        {isLoading && 
+          <Loader 
+            type="BallTriangle" 
+            color="#00BFFF" 
+            height={80}
+            width={80} 
+            timeout={2500} 
+          />}
       </>
     );
   };

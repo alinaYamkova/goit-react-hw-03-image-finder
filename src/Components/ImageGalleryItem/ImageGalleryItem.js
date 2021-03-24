@@ -5,13 +5,12 @@ import PropTypes from "prop-types";
 const ImageGalleryItem = ({ hits, getElem }) => {
   return (
     <>
-      {hits.map(({ id, webformatURL, tags }) => (
+      {hits.map(elem => (
         <li className="ImageGalleryItem" >
           <img
-            key={id}
-            src={webformatURL}
-            alt={tags}
-            getElem={getElem}
+            src={elem.webformatURL}
+            alt={elem.tags}
+            getElem={()=>getElem(elem)}
             className="ImageGalleryItem-image"
           />
         </li>

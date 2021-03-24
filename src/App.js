@@ -48,10 +48,10 @@ class App extends Component {
   };  
 
   fetchImg = () => {
-    const { searchQuery, currentPage } = this.state;
     this.setState({ isLoading: true });
+    const { searchQuery, currentPage } = this.state;
 
-    api.getFetch(currentPage, searchQuery).then((result) => {
+    api.getFetch(searchQuery, currentPage).then((result) => {
       // console.log(result.length);
       this.setState((prevState) => ({
         hits: [...prevState.hits, ...result],
@@ -78,25 +78,25 @@ class App extends Component {
 
   getElem = (elem) => {
     if (elem) {
-      this.toggleModal();
       this.setState({ elem });
+      this.toggleModal();
     }
   };
 
   render() {
     const { showModal, isLoading, hits, elem, resultLength } = this.state;
-    const { toggleModal, getElem, fetchImg, onChangeQuery } = this;
+    // const { toggleModal, getElem, fetchImg, onChangeQuery } = this;
     // const shouldRenderLoadMoreBtn = resultLength >= 12 && !isLoading;
     return (
       <>
-        <Searchbar onSubmit={onChangeQuery} />
-        <ImageGallery hits={hits} getElem={getElem} />
+        <Searchbar onSubmit={this.onChangeQuery} />
+        <ImageGallery hits={hits} getElem={this.getElem} />
         {showModal && (
-          <Modal source={hits.webformatURL} onClose={toggleModal}>
-            <img src={elem.largeImageURL} alt={elem.tags} width="800" height="600" />
+          <Modal onClose={this.toggleModal}>
+            <img src={elem.largeImageURL} width="800" height="600" />
           </Modal>
         )}
-        {resultLength === 12 && !isLoading && <Button onFetchImg={fetchImg} />} 
+        {resultLength === 12 && !isLoading && <Button onFetchImg={this.fetchImg} />} 
         <Loader 
           type="BallTriangle" 
           color="#00BFFF" 

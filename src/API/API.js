@@ -1,9 +1,7 @@
 import React from "react";
 
 const baseUrl = "https://pixabay.com/api/";
-const apiKey = "19858059-a00c77d69399edf61aa280af0";
-// const currentPage = 1;
-// const query = '';
+const apiKey = "20840162-f62ff7402b91de28f502cc31c";
 
 function getFetch(query, currentPage) {
   return fetch(`${baseUrl}?q=${query}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=12&key=${apiKey}`)

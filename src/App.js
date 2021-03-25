@@ -22,43 +22,47 @@ class App extends Component {
     error: null,
   };
 
-  componentDidUpdate(prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
+  componentDidUpdate(prevState, prevProps) {
+    const { searchQuery } = this.state;
+    if (prevState.searchQuery !== searchQuery && searchQuery !== '') {
       this.fetchImg();
     };
   }
   
   onChangeQuery = (query) => {
-    const { searchQuery } = this.state;
-
+    const { searchQuery, currentPage } = this.state;
     if(searchQuery === query) {
       return;
     }
     this.setState ({searchQuery: query, currentPage: 1, hits: [] });
-    // this.setState({ isLoading: true });
-    // api.getFetch(query, currentPage).then((result) => {
-    //   this.setState({ 
-    //     hits: result, 
-    //     resultLength: result.length, 
-    //     isLoading: false });
-    //   })
-    //   .catch((error) => { console.log("ERROR", error)});
-  };  
+    this.setState({ isLoading: true });
+    api.getFetch(query, currentPage).then((result) => {
+      this.setState({ 
+        hits: [...result], 
+        resultLength: result.length, 
+        isLoading: false,
+      })
+      .catch((error) => { console.log("ERROR", error)});
+    });  
+  }
 
   fetchImg = () => {
     const { searchQuery, currentPage } = this.state;
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true});
 
-    api.getFetch({searchQuery, currentPage}).then((result) => {
+    api.getFetch({searchQuery, currentPage})
+    .then(({result}) => {
       this.setState((prevState) => ({
-        hits: [...prevState.hits, ...result],
+        hits: [...prevState.hits, result],
+        resultLength: result.length, 
         currentPage: prevState.currentPage + 1,
       }));
       this.scrollTo();
     })
     .catch(error => this.setState({ error }))
-    .finally(() => {this.setState({ isLoading: false });
-    });
+    .finally(() => this.setState({ isLoading: false }));
+    // console.log(this.state.hits);
+    // console.log(this.state.result)
   };
   
   scrollTo = () => {

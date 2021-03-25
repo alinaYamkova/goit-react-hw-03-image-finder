@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 // import s from '.././Styles/Styles.module.css';
 
-const Button = ({ onFetchImg }) => (
+const Button = ({ fetchImg }) => (
     <button 
       type="button" 
       className="Button" 
-      onClick={onFetchImg}>
+      onClick={fetchImg}>
       Load more 
     </button>
 );

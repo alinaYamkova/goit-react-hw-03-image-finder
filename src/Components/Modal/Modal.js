@@ -1,9 +1,16 @@
 import { Component } from "react";
 import { createPortal } from "react-dom";
+import PropTypes from "prop-types";
+import s from '../Searchbar/Searchbar.module.css';
+
 
 const modalRoot = document.querySelector("#modal-root");
 
 export default class Modal extends Component {
+  static propTypes = {
+    handleBackdropClick: PropTypes.func,
+  };
+
   componentDidMount() {
     window.addEventListener("keydown", this.handleKeydown);
   }
@@ -26,8 +33,8 @@ export default class Modal extends Component {
 
   render() {
     return createPortal(
-      <div className="Overlay" onClick={this.handleBackdropClick}>
-        <div className="Modal">{this.props.children}</div>
+      <div className={s.Overlay} onClick={this.handleBackdropClick}>
+        <div className={s.Modal}>{this.props.children}</div>
       </div>,
       modalRoot
     );

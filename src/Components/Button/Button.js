@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-// import s from '.././Styles/Styles.module.css';
+import s from './Button.module.css';
 
 const Button = ({ fetchImg }) => (
-    <button 
-      type="button" 
-      className="Button" 
-      onClick={fetchImg}>
-      Load more 
-    </button>
+  <button 
+    type="button" 
+    className={s.Button} 
+    onClick={fetchImg}>
+    Load more 
+  </button>
+  // console.log(fetchImg)
 );
 
 export default Button;

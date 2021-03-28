@@ -1,56 +1,54 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-// import "../Styles/Styles.module.css";
+import s from './Searchbar.module.css';
 
 class Searchbar extends Component {
+  static propTypes = {
+    changeQuery: PropTypes.func,
+  };
+  
   state = {
-    showModal: false,
-    query: "",
+    query: '',
   };
 
   handleChange = (e) => {
-    this.setState({ query: e.target.value });
+    this.setState({ query: e.currentTarget.value });
   };
   
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.onSubmit(this.state.query);
-    this.setState({ query: "" });
+    const { query } = this.state;
+    this.props.changeQuery({ query });
+    // const {changeQuery} = this.props;
+    // changeQuery(this.state.query);
+    this.setState({ query: '' });
   };
 
+
   render() {
-    // const { handleChange, handleSubmit } = this;
     const { query } = this.state;
 
     return (
-      <>
-       <header className="Searchbar">
-        <form  onSubmit={this.handleSubmit} className="SearchForm">
-          <button
-            type="submit"
-            className="SearchForm-button"
-          >
-            <span className="SearchForm-button-label">Search</span>
+       <header className={s.Searchbar}>
+        <form  onSubmit={this.handleSubmit} className={s.SearchForm}>
+          <button type="submit" className={s.SearchFormButton}>
+            <span className={s.SearchFormButtonLabel}>Search</span>
           </button>
 
           <input
-            onChange={this.handleChange}
-            className="SearchForm-input"
+            className={s.SearchFormInput}
             type="text"
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
+            name="query"
             value={query}
+            onChange={this.handleChange}
           />
         </form>
       </header>
-      </>
     );
   };
 };
 
 export default Searchbar;
-
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};

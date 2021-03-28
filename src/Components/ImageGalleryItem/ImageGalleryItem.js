@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import s from '../Searchbar/Searchbar.module.css';
+
 
 class ImageGalleryItem extends Component {
   state = {
@@ -19,7 +21,7 @@ class ImageGalleryItem extends Component {
           src={webformatURL}
           alt={tags}
           key={id}
-          className="ImageGalleryItem-image"
+          className={s.ImageGalleryItemImage}
         />
       </li>
     );

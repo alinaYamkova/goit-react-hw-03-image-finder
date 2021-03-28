@@ -4,7 +4,7 @@ const baseUrl = "https://pixabay.com/api/";
 const apiKey = "20840162-f62ff7402b91de28f502cc31c";
 
 function getFetch(searchQuery, currentPage) {
-  const url = `https://pixabay.com/api/?q=${searchQuery}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=12&key=${apiKey}`;
+  const url = `${baseUrl}&?q=${searchQuery}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=12&key=${apiKey}`;
   return fetch(url)
   .then((res) => res.json())
   .then((response) => response.hits);

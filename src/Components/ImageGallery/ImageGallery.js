@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
+import PropTypes from 'prop-types';
 import s from '../Searchbar/Searchbar.module.css';
+import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 
 
 const ImageGallery = ({ hits, getElem }) => {
@@ -20,3 +21,8 @@ const ImageGallery = ({ hits, getElem }) => {
 };
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+  hits: PropTypes.array.isRequired,
+  getElem: PropTypes.func.isRequired,
+};

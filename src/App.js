@@ -30,11 +30,10 @@ class App extends Component {
   };
 
   fetchImg = () => {
-    this.setState({ isLoading: true});
     const { searchQuery, currentPage } = this.state;
-    const options = (searchQuery, currentPage);
+    this.setState({ isLoading: true});
 
-    api.getFetch(options)
+    api.getFetch(searchQuery, currentPage)
     .then((result) => { 
       if(result.length) {
         this.setState((prevState) => ({
@@ -77,10 +76,8 @@ class App extends Component {
   };
 
   getElem = (url) => {
-    console.log('url', url);
     this.setState({ largeImageURL: url });
     this.toggleModal();
-    return this.state.largeImageURL.value;
   };
 
   render() {

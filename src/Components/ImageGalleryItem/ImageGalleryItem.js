@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import PropTypes from "prop-types";
 import s from '../Searchbar/Searchbar.module.css';
 
 const ImageGalleryItem = ({ webformatURL, largeImageURL, tags, getElem}) => {

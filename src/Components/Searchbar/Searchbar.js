@@ -19,8 +19,6 @@ class Searchbar extends Component {
     e.preventDefault();
     const { query } = this.state;
     this.props.changeQuery({ query });
-    // const {changeQuery} = this.props;
-    // changeQuery(this.state.query);
     this.setState({ query: '' });
   };
 

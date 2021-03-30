@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import s from '../Searchbar/Searchbar.module.css';
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
-
+// import { v4 as uuidv4 } from 'uuid';
 
 const ImageGallery = ({ hits, getElem }) => {
   return (
@@ -10,9 +10,9 @@ const ImageGallery = ({ hits, getElem }) => {
       {hits.map(({id, tags, webformatURL, largeImageURL }) => (
         <ImageGalleryItem 
           key={id}
-          alt={tags}
-          src={webformatURL}
-          selectedImg={largeImageURL}
+          tags={tags}
+          webformatURL={webformatURL}
+          largeImageURL={largeImageURL}
           getElem={getElem}
         />
       ))}

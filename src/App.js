@@ -12,7 +12,7 @@ import "./App.css";
 class App extends Component {
   state = {
     hits: [],
-    searchQuery: 'moon',
+    searchQuery: '',
     currentPage: 1,
     isLoading: false,
     showModal: false,
@@ -23,18 +23,17 @@ class App extends Component {
     msg: null,
   };
 
-  componentDidUpdate(prevState, prevProps) {
-    console.log('я обновился!');
+  componentDidUpdate(prevProps, prevState) {
+    console.log('я обновился!', this.state.searchQuery);
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImg();
-      console.log(this.state.searchQuery);
-    } 
+    }
   };
-  
+
   fetchImg = () => {
     this.setState({ isLoading: true});
     const { searchQuery, currentPage } = this.state;
-    const options = ({searchQuery, currentPage});
+    const options = {searchQuery, currentPage};
 
     api.getFetch(options)
     .then((result) => { 
@@ -59,20 +58,11 @@ class App extends Component {
       behavior: 'smooth'})
   };
   
-  changeQuery = (query) => {
-    console.log(query);
+  changeQuery = ({query}) => {
     if (this.state.searchQuery !== query) {
       this.setState ({searchQuery: query, currentPage: 1, total: 0, hits: [], isLoading: true});
-      console.log(this.state.searchQuery);  
     }
     return;
-  };
-
-  scrollTo = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
   };
 
   toggleModal = () => {
@@ -81,15 +71,14 @@ class App extends Component {
     }));
   };
 
-  getElem = (elem) => {
-    this.setState({ selectedImg: elem });
+  getElem = (largeImageURL) => {
+    this.setState({ selectedImg: largeImageURL });
     this.toggleModal();
   };
 
   render() {
-    const { showModal, isLoading, hits, resultLength, selectedImg, toNextPage } = this.state;
+    const { showModal, isLoading, hits, resultLength, selectedImg } = this.state;
     const { toggleModal, getElem, changeQuery, fetchImg } = this;
-    // const { hits } = this.props;
     const shouldRenderLoadMoreBtn = resultLength === 12 && !isLoading;
     return (
       <>

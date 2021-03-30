@@ -3,8 +3,8 @@ import React from "react";
 const baseUrl = "https://pixabay.com/api/";
 const apiKey = "20840162-f62ff7402b91de28f502cc31c";
 
-function getFetch(searchQuery, currentPage) {
-  const url = `${baseUrl}&?q=${searchQuery}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=12&key=${apiKey}`;
+function getFetch(searchQuery = '', currentPage = 1) {
+  const url = `${baseUrl}?q=${searchQuery}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=12&key=${apiKey}`;
   return fetch(url)
   .then((res) => res.json())
   .then((response) => response.hits);

@@ -26,17 +26,22 @@ export default class Modal extends Component {
   };
   //  //закриття по BackdropClick
   handleBackdropClick = (e) => {
-    if (e.target === e.currentTurget) {
+    if (e.currentTarget === e.target) {
       this.props.onClose();
     }
   };
 
   render() {
     return createPortal(
-      <div className={s.Overlay} onClick={this.handleBackdropClick}>
+      <div className={s.Overlay} onClose={this.handleBackdropClick}>
         <div className={s.Modal}>{this.props.children}</div>
       </div>,
       modalRoot
     );
   }
 }
+
+Modal.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};

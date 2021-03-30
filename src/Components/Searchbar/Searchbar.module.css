@@ -71,7 +71,7 @@ img {
   overflow: hidden;
 }
 
-.SearchForm-button {
+.SearchFormButton {
   display: inline-block;
   width: 48px;
   height: 48px;
@@ -86,11 +86,11 @@ img {
   outline: none;
 }
 
-.SearchForm-button:hover {
+.SearchFormButton:hover {
   opacity: 1;
 }
 
-.SearchForm-button-label {
+.SearchFormButtonLabel {
   position: absolute;
   width: 1px;
   height: 1px;

@@ -1,30 +1,29 @@
 import { Component } from "react";
 import PropTypes from "prop-types";
-import s from './Searchbar.module.css';
+import s from '../Searchbar/Searchbar.module.css';
 
 class Searchbar extends Component {
   static propTypes = {
-    changeQuery: PropTypes.func,
+    onSubmit: PropTypes.func,
   };
   
   state = {
-    query: '',
+    searchQuery: '',
   };
 
   handleChange = (e) => {
-    this.setState({ query: e.currentTarget.value });
+    this.setState({ searchQuery: e.currentTarget.value });
   };
   
   handleSubmit = (e) => {
     e.preventDefault();
-    const { query } = this.state;
-    this.props.changeQuery({ query });
-    this.setState({ query: '' });
+    // const { searchQuery } = this.state;
+    this.props.onSubmit( this.state.searchQuery);
+    this.setState({ searchQuery: '' });
   };
 
-
   render() {
-    const { query } = this.state;
+    const { searchQuery } = this.state;
 
     return (
        <header className={s.Searchbar}>
@@ -39,8 +38,8 @@ class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            name="query"
-            value={query}
+            name="searchQuery"
+            value={searchQuery}
             onChange={this.handleChange}
           />
         </form>

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import s from './Button.module.css';
+import s from '../Searchbar/Searchbar.module.css';
 
 const Button = ({ onFetchImg }) => (
   <button 
     type="button" 
     className={s.Button} 
-    onClick={onFetchImg}>
+    onClick={onFetchImg}
+  >
     Load more 
   </button>
 );

@@ -17,14 +17,13 @@ class App extends Component {
     isLoading: false,
     showModal: false,
     resultLength: null,
-    selectedImg: '',
+    largeImageURL: '',
     error: null,
     // total: null,
     msg: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    console.log('я обновился!', this.state.searchQuery);
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.fetchImg();
     }
@@ -33,7 +32,7 @@ class App extends Component {
   fetchImg = () => {
     this.setState({ isLoading: true});
     const { searchQuery, currentPage } = this.state;
-    const options = {searchQuery, currentPage};
+    const options = (searchQuery, currentPage);
 
     api.getFetch(options)
     .then((result) => { 
@@ -58,11 +57,17 @@ class App extends Component {
       behavior: 'smooth'})
   };
   
-  changeQuery = ({query}) => {
-    if (this.state.searchQuery !== query) {
-      this.setState ({searchQuery: query, currentPage: 1, total: 0, hits: [], isLoading: true});
-    }
-    return;
+  changeQuery = (searchQuery) => {
+    console.log('before_searchQuery', this.state.searchQuery);
+    if (this.state.searchQuery === searchQuery) {
+      return;
+    } 
+    api.getFetch(searchQuery, 1)
+    .then(data =>
+      this.setState({ hits: [], searchQuery: searchQuery, currentPage: 1,
+        isLoading: true, resultLength: data.length === 12 }))
+    .catch(error => console.error({ error }));
+    // console.log('after_searchQuery', this.state.searchQuery);
   };
 
   toggleModal = () => {
@@ -71,18 +76,20 @@ class App extends Component {
     }));
   };
 
-  getElem = (largeImageURL) => {
-    this.setState({ selectedImg: largeImageURL });
+  getElem = (url) => {
+    console.log('url', url);
+    this.setState({ largeImageURL: url });
     this.toggleModal();
+    return this.state.largeImageURL.value;
   };
 
   render() {
-    const { showModal, isLoading, hits, resultLength, selectedImg } = this.state;
+    const { showModal, isLoading, hits, resultLength, largeImageURL } = this.state;
     const { toggleModal, getElem, changeQuery, fetchImg } = this;
     const shouldRenderLoadMoreBtn = resultLength === 12 && !isLoading;
     return (
       <>
-        <Searchbar changeQuery={changeQuery} />
+        <Searchbar onSubmit={changeQuery} />
         <ImageGallery hits={hits} getElem={getElem} />
 
         {shouldRenderLoadMoreBtn &&  <Button onFetchImg={fetchImg} />} 
@@ -90,7 +97,7 @@ class App extends Component {
         {showModal && (
           <Modal onClose={toggleModal}>
             <img 
-              src={selectedImg} 
+              src={largeImageURL} 
               width="600" 
               height="400" 
             />

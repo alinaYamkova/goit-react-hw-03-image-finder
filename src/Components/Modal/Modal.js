@@ -15,7 +15,7 @@ export default class Modal extends Component {
     window.addEventListener("keydown", this.handleKeydown);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     window.removeEventListener("keydown", this.handleKeydown);
   }
   //закриття по Escape
@@ -33,7 +33,7 @@ export default class Modal extends Component {
 
   render() {
     return createPortal(
-      <div className={s.Overlay} onClose={this.handleBackdropClick}>
+      <div className={s.Overlay} onClick={this.handleBackdropClick}>
         <div className={s.Modal}>{this.props.children}</div>
       </div>,
       modalRoot

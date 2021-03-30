@@ -9,7 +9,7 @@ const ImageGalleryItem = ({ webformatURL, largeImageURL, tags, getElem}) => {
           className={s.ImageGalleryItemImage}
           src={webformatURL}
           alt={tags}
-          onClick={() => {getElem({ largeImageURL })}} 
+          onClick={()=>(getElem(largeImageURL))} 
         />
     </li>
   );

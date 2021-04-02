@@ -24,10 +24,13 @@ class App extends Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.searchQuery !== this.state.searchQuery) {
+    if (this.state.searchQuery === '') {
+      alert ('Please, enter your request')
+    }
+    if (prevState.searchQuery !== this.state.searchQuery ) {
       this.fetchImg();
     }
-  };
+  }
 
   fetchImg = () => {
     const { searchQuery, currentPage } = this.state;

@@ -19,18 +19,14 @@ class App extends Component {
     resultLength: null,
     largeImageURL: '',
     error: null,
-    // total: null,
     msg: null,
   };
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.searchQuery === '') {
-      alert ('Please, enter your request')
-    }
-    if (prevState.searchQuery !== this.state.searchQuery ) {
+    if (prevState.searchQuery !== this.state.searchQuery && this.state.searchQuery !== '') {
       this.fetchImg();
     }
-  }
+  };
 
   fetchImg = () => {
     const { searchQuery, currentPage } = this.state;
@@ -60,16 +56,11 @@ class App extends Component {
   };
   
   changeQuery = (searchQuery) => {
-    console.log('before_searchQuery', this.state.searchQuery);
     if (this.state.searchQuery === searchQuery) {
       return;
     } 
-    api.getFetch(searchQuery, 1)
-    .then(data =>
-      this.setState({ hits: [], searchQuery: searchQuery, currentPage: 1,
-        isLoading: true, resultLength: data.length === 12 }))
-    .catch(error => console.error({ error }));
-    // console.log('after_searchQuery', this.state.searchQuery);
+    this.setState({ hits: [], searchQuery: searchQuery, currentPage: 1,
+      isLoading: true, resultLength: 12 });
   };
 
   toggleModal = () => {
